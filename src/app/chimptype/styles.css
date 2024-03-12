@@ -1,0 +1,32 @@
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.simple-keyboard.hg-layout-default .hg-button.vowels {
+  background: rgba(204, 0, 255, 0.7);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.qwerty-home {
+  background: rgb(255, 0, 0, 0.7);
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.colemak-home {
+  background: rgb(255, 0, 0, 0.7);
+  color: white;
+}
