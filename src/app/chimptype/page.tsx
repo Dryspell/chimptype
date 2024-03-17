@@ -12,40 +12,8 @@ import {
   useState,
 } from "react";
 import "./styles.css";
-
-const defaultLayout = {
-  default: [
-    "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-    "{tab} q w e r t y u i o p [ ] \\",
-    "{lock} a s d f g h j k l ; ' {enter}",
-    "{shift} z x c v b n m , . / {shift}",
-    ".com @ {space}",
-  ],
-  shift: [
-    "~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}",
-    "{tab} Q W E R T Y U I O P { } |",
-    '{lock} A S D F G H J K L : " {enter}',
-    "{shift} Z X C V B N M &lt; &gt; ? {shift}",
-    ".com @ {space}",
-  ],
-};
-
-const colemakLayout = {
-  default: [
-    "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-    "{tab} q w f p g j l u y ; [ ] \\",
-    "{lock} a r s t d h n e i o ' {enter}",
-    "{shift} z x c v b k m , . / {shift}",
-    "{space}",
-  ],
-  shift: [
-    "~ ! @ # $ % ^ &amp; * ( ) _ + {bksp}",
-    "{tab} Q W F P G J L U Y : { } |",
-    '{lock} A R S T D H N E I O " {enter}',
-    "{shift} Z X C V B K M &lt; &gt; ? {shift}",
-    "{space}",
-  ],
-};
+import { Prompt } from "./components/Prompt";
+import { colemakLayout, defaultLayout } from "./constants";
 
 // export function Keyboard({
 //   baseClass,
@@ -78,93 +46,6 @@ const colemakLayout = {
 //     />
 //   );
 // }
-
-const MATCH = "match" as const;
-const MISTAKE = "mistake" as const;
-const NO_INPUT = "no_input" as const;
-
-export function Prompt({
-  children: text,
-  userInput,
-}: {
-  children: string;
-  userInput: string;
-}) {
-  console.log({ userInput });
-  // const [matchedText, setMatchedText] = useState<
-  //   {
-  //     type: typeof MATCH | typeof MISTAKE | typeof NO_INPUT;
-  //     substring: string;
-  //   }[]
-  // >([]);
-
-  // useEffect(() => {
-  //   const newMatchedText: typeof matchedText = [];
-  //   [...userInput].forEach((char, i) => {
-  //     const lastMatch = newMatchedText[newMatchedText.length - 1];
-  //     if (char === text[i]) {
-  //       lastMatch?.type === MATCH
-  //         ? (lastMatch.substring += char)
-  //         : newMatchedText.push({ type: MATCH, substring: char });
-  //     } else {
-  //       lastMatch?.type === MISTAKE
-  //         ? (lastMatch.substring += char)
-  //         : newMatchedText.push({ type: MISTAKE, substring: char });
-  //     }
-  //   });
-  //   newMatchedText.push({
-  //     type: NO_INPUT,
-  //     substring: text.slice(newMatchedText.length),
-  //   });
-  //   setMatchedText(newMatchedText);
-  // }, [text, userInput.current?.value, userInput]);
-
-  const matchedText: {
-    type: typeof MATCH | typeof MISTAKE | typeof NO_INPUT;
-    substring: string;
-  }[] = [];
-  [...userInput].forEach((char, i) => {
-    const lastMatch = matchedText[matchedText.length - 1];
-    if (char === text[i]) {
-      lastMatch?.type === MATCH
-        ? (lastMatch.substring += char)
-        : matchedText.push({ type: MATCH, substring: char });
-    } else {
-      lastMatch?.type === MISTAKE
-        ? (lastMatch.substring += char)
-        : matchedText.push({ type: MISTAKE, substring: char });
-    }
-  });
-  matchedText.push({
-    type: NO_INPUT,
-    substring: text.slice(
-      matchedText.reduce((acc, curr) => acc + curr.substring, "").length,
-    ),
-  });
-
-  const textParts = matchedText.map((part, i) => (
-    <span
-      key={i}
-      className={
-        part.type === MATCH
-          ? "text-green-400"
-          : part.type === MISTAKE
-            ? "text-red-400"
-            : "text-gray-400"
-      }
-    >
-      {part.substring}
-    </span>
-  ));
-
-  return (
-    <div className="flex items-center justify-center">
-      <div className="rounded-lg bg-white p-4">
-        <p className="text-black">{textParts}</p>
-      </div>
-    </div>
-  );
-}
 
 export function ErrorCount({ count }: { count: number }) {
   return (
